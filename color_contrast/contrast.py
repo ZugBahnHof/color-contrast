@@ -37,6 +37,22 @@ def check_contrast(
     background_color: str | Color,
     level: float | AccessibilityLevel = AccessibilityLevel.AA,
 ) -> bool:
+    """
+    Checks whether the contrast between two colors is above a certain threshold.
+
+    :param foreground_color: Foreground (text) color
+    :type foreground_color: str | Color
+    :param background_color: Background Color (cannot be transparent)
+    :type background_color: str | Color
+    :param level: Necessary minimum contrast the two colors
+    :type level: float | AccessibilityLevel
+    :return: Whether the contrast check passes
+    :rtype: bool
+    """
+
+    if isinstance(level, AccessibilityLevel):
+        level = level.value
+
     fg = Color(foreground_color)
     bg = Color(background_color)
 
