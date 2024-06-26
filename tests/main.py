@@ -1,5 +1,5 @@
 import unittest
-from color_contrast import *
+from color_contrast import AccessibilityLevel, check_contrast
 
 
 class ContrastCheckTestCase(unittest.TestCase):
