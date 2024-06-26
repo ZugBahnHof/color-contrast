@@ -60,5 +60,6 @@ def check_contrast(
     l2 = get_luminance(bg)
 
     ratio = (l1 + 0.05) / (l2 + 0.05)
+    ratio_i = (l2 + 0.05) / (l1 + 0.05)
 
-    return ratio >= level
+    return ratio >= level or ratio_i >= level
