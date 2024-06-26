@@ -1,5 +1,7 @@
 import unittest
 from main import ContrastCheckTestCase
 
-if __name__ == '__main__':
+__all__ = ["ContrastCheckTestCase"]
+
+if __name__ == "__main__":
     unittest.main()

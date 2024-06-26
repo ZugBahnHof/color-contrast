@@ -33,9 +33,9 @@ def get_luminance(color: Color) -> float:
 
 
 def check_contrast(
-        foreground_color: str | Color,
-        background_color: str | Color,
-        level: AccessibilityLevel = AccessibilityLevel.AA,
+    foreground_color: str | Color,
+    background_color: str | Color,
+    level: AccessibilityLevel = AccessibilityLevel.AA,
 ) -> bool:
     fg = Color(foreground_color)
     bg = Color(background_color)

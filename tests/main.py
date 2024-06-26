@@ -28,23 +28,65 @@ class ContrastCheckTestCase(unittest.TestCase):
         self.assertFalse(check_contrast("#123456", "#123456"))
 
     def test_aa18(self):
-        self.assertFalse(check_contrast(self.FG[0], self.BG, level=AccessibilityLevel.AA18))
-        self.assertTrue(check_contrast(self.FG[AccessibilityLevel.AA18], self.BG, level=AccessibilityLevel.AA18))
-        self.assertTrue(check_contrast(self.FG[AccessibilityLevel.AA], self.BG, level=AccessibilityLevel.AA18))
-        self.assertTrue(check_contrast(self.FG[AccessibilityLevel.AAA], self.BG, level=AccessibilityLevel.AA18))
+        self.assertFalse(
+            check_contrast(self.FG[0], self.BG, level=AccessibilityLevel.AA18)
+        )
+        self.assertTrue(
+            check_contrast(
+                self.FG[AccessibilityLevel.AA18], self.BG, level=AccessibilityLevel.AA18
+            )
+        )
+        self.assertTrue(
+            check_contrast(
+                self.FG[AccessibilityLevel.AA], self.BG, level=AccessibilityLevel.AA18
+            )
+        )
+        self.assertTrue(
+            check_contrast(
+                self.FG[AccessibilityLevel.AAA], self.BG, level=AccessibilityLevel.AA18
+            )
+        )
 
     def test_aa(self):
-        self.assertFalse(check_contrast(self.FG[0], self.BG, level=AccessibilityLevel.AA))
-        self.assertFalse(check_contrast(self.FG[AccessibilityLevel.AA18], self.BG, level=AccessibilityLevel.AA))
-        self.assertTrue(check_contrast(self.FG[AccessibilityLevel.AA], self.BG, level=AccessibilityLevel.AA))
-        self.assertTrue(check_contrast(self.FG[AccessibilityLevel.AAA], self.BG, level=AccessibilityLevel.AA))
+        self.assertFalse(
+            check_contrast(self.FG[0], self.BG, level=AccessibilityLevel.AA)
+        )
+        self.assertFalse(
+            check_contrast(
+                self.FG[AccessibilityLevel.AA18], self.BG, level=AccessibilityLevel.AA
+            )
+        )
+        self.assertTrue(
+            check_contrast(
+                self.FG[AccessibilityLevel.AA], self.BG, level=AccessibilityLevel.AA
+            )
+        )
+        self.assertTrue(
+            check_contrast(
+                self.FG[AccessibilityLevel.AAA], self.BG, level=AccessibilityLevel.AA
+            )
+        )
 
     def test_aaa(self):
-        self.assertFalse(check_contrast(self.FG[0], self.BG, level=AccessibilityLevel.AAA))
-        self.assertFalse(check_contrast(self.FG[AccessibilityLevel.AA18], self.BG, level=AccessibilityLevel.AAA))
-        self.assertFalse(check_contrast(self.FG[AccessibilityLevel.AA], self.BG, level=AccessibilityLevel.AAA))
-        self.assertTrue(check_contrast(self.FG[AccessibilityLevel.AAA], self.BG, level=AccessibilityLevel.AAA))
+        self.assertFalse(
+            check_contrast(self.FG[0], self.BG, level=AccessibilityLevel.AAA)
+        )
+        self.assertFalse(
+            check_contrast(
+                self.FG[AccessibilityLevel.AA18], self.BG, level=AccessibilityLevel.AAA
+            )
+        )
+        self.assertFalse(
+            check_contrast(
+                self.FG[AccessibilityLevel.AA], self.BG, level=AccessibilityLevel.AAA
+            )
+        )
+        self.assertTrue(
+            check_contrast(
+                self.FG[AccessibilityLevel.AAA], self.BG, level=AccessibilityLevel.AAA
+            )
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
