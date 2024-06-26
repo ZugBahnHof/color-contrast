@@ -24,6 +24,18 @@ class ContrastCheckTestCase(unittest.TestCase):
         self.assertTrue(check_contrast("white", "#000000"))
         self.assertTrue(check_contrast("white", "black"))
 
+        self.assertTrue(check_contrast("#000", "#fff"))
+        self.assertTrue(check_contrast("#000", "#ffffff"))
+        self.assertTrue(check_contrast("#000", "white"))
+
+        self.assertTrue(check_contrast("#000000", "#fff"))
+        self.assertTrue(check_contrast("#000000", "#ffffff"))
+        self.assertTrue(check_contrast("#000000", "white"))
+
+        self.assertTrue(check_contrast("black", "#fff"))
+        self.assertTrue(check_contrast("black", "#ffffff"))
+        self.assertTrue(check_contrast("black", "white"))
+
     def test_inaccessible(self):
         self.assertFalse(check_contrast("#123456", "#123456"))
 
