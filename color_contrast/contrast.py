@@ -63,3 +63,26 @@ def check_contrast(
     ratio_i = (l2 + 0.05) / (l1 + 0.05)
 
     return ratio >= level or ratio_i >= level
+
+
+def modulate(foreground: str | Color, background: str | Color):
+    foreground = Color(foreground)
+    background = Color(background)
+
+    l1, l2 = get_luminance(foreground), get_luminance(background)
+
+    # fg Color is brighter
+    mode = 1 / 256 if l1 > l2 else -1 / 256
+
+    while not check_contrast(foreground, background):
+        old_hsl = foreground.hsl
+
+        if old_hsl[2] == 1 or old_hsl[2] == 0:
+            break
+
+        new_hsl = (old_hsl[0], old_hsl[1], max(0, min(1, old_hsl[2] + mode)))
+
+        foreground = Color(hsl=new_hsl)
+
+    print(foreground.hex, background.hex)
+    return foreground, background
