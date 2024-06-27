@@ -128,5 +128,4 @@ def modulate(
                 foreground = increase_lightness(foreground, fg_delta)
                 background = increase_lightness(background, -fg_delta)
 
-    print(foreground.hex, background.hex, unsuccessful_stop)
     return foreground, background, not unsuccessful_stop
