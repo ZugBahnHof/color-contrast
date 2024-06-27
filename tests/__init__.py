@@ -1,5 +1,5 @@
 import unittest
-from main import ContrastCheckTestCase
+from tests.main import ContrastCheckTestCase
 
 __all__ = ["ContrastCheckTestCase"]
 
