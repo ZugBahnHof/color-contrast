@@ -198,6 +198,15 @@ class ContrastCheckTestCase(unittest.TestCase):
         self.assertEqual(Color("#052240"), b_)
         self.assertTrue(success)
 
+    def test_modulate_both(self):
+        a, b = "#808080", "#808080"
+        a_, b_, success = modulate(a, b, mode=ModulationMode.BOTH)
+
+        self.assertNotEqual(a, a_)
+        self.assertNotEqual(b, b_)
+
+        self.assertEqual(a_.get_hue(), b_.get_hue())
+
 
 if __name__ == "__main__":
     unittest.main()
