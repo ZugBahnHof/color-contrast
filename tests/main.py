@@ -2,7 +2,7 @@ import unittest
 
 from colour import Color
 
-from color_contrast import AccessibilityLevel, check_contrast, modulate
+from color_contrast import AccessibilityLevel, check_contrast, modulate, ModulationMode
 
 
 class ContrastCheckTestCase(unittest.TestCase):
@@ -104,46 +104,99 @@ class ContrastCheckTestCase(unittest.TestCase):
 
     def test_modulate_no_action_needed(self):
         a, b = Color("#fff"), Color("#000")
-        a_, b_ = modulate(a, b)
+        a_, b_, success = modulate(a, b)
 
         self.assertEqual(a, a_)
         self.assertEqual(b, b_)
+        self.assertTrue(success)
+
+    def test_modulate_no_action_needed_inv(self):
+        a, b = Color("#000"), Color("#fff")
+        a_, b_, success = modulate(a, b, mode=ModulationMode.BACKGROUND)
+
+        self.assertEqual(a, a_)
+        self.assertEqual(b, b_)
+        self.assertTrue(success)
 
     def test_modulate_fg_brighter(self):
         a, b = Color("#444"), Color("#000")
-        a_, b_ = modulate(a, b)
+        a_, b_, success = modulate(a, b)
 
         self.assertNotEqual(a, a_)
         self.assertEqual(Color("#757575"), a_)
         self.assertEqual(b, b_)
+        self.assertTrue(success)
 
     def test_modulate_fg_brighter_hue_sat(self):
         a, b = Color("#0d5eaf"), Color("#000")
-        a_, b_ = modulate(a, b)
+        a_, b_, success = modulate(a, b)
 
         self.assertNotEqual(a, a_)
         self.assertEqual(a.get_hue(), a_.get_hue())
         self.assertEqual(a.get_saturation(), a_.get_saturation())
         self.assertEqual(Color("#1074d8"), a_)
         self.assertEqual(b, b_)
+        self.assertTrue(success)
 
     def test_modulate_fg_darker(self):
         a, b = Color("#eee"), Color("#fff")
-        a_, b_ = modulate(a, b)
+        a_, b_, success = modulate(a, b)
 
         self.assertNotEqual(a, a_)
         self.assertEqual(Color("#767676"), a_)
         self.assertEqual(b, b_)
+        self.assertTrue(success)
 
     def test_modulate_fg_darker_hue_sat(self):
         a, b = Color("#0d5eaf"), Color("#888888")
-        a_, b_ = modulate(a, b)
+        a_, b_, success = modulate(a, b)
 
         self.assertNotEqual(a, a_)
         self.assertEqual(a.get_hue(), a_.get_hue())
         self.assertEqual(a.get_saturation(), a_.get_saturation())
         self.assertEqual(Color("#052240"), a_)
         self.assertEqual(b, b_)
+        self.assertTrue(success)
+
+    def test_modulate_bg_brighter(self):
+        a, b = Color("#000"), Color("#444")
+        a_, b_, success = modulate(a, b, mode=ModulationMode.BACKGROUND)
+
+        self.assertEqual(a, a_)
+        self.assertNotEqual(b, b_)
+        self.assertEqual(Color("#757575"), b_)
+        self.assertTrue(success)
+
+    def test_modulate_bg_brighter_hue_sat(self):
+        a, b = Color("#000"), Color("#0d5eaf")
+        a_, b_, success = modulate(a, b, mode=ModulationMode.BACKGROUND)
+
+        self.assertEqual(a, a_)
+        self.assertNotEqual(b, b_)
+        self.assertEqual(b.get_hue(), b_.get_hue())
+        self.assertEqual(b.get_saturation(), b_.get_saturation())
+        self.assertEqual(Color("#1074d8"), b_)
+        self.assertTrue(success)
+
+    def test_modulate_bg_darker(self):
+        a, b = Color("#fff"), Color("#eee")
+        a_, b_, success = modulate(a, b, mode=ModulationMode.BACKGROUND)
+
+        self.assertEqual(a, a_)
+        self.assertNotEqual(b, b_)
+        self.assertEqual(Color("#767676"), b_)
+        self.assertTrue(success)
+
+    def test_modulate_bg_darker_hue_sat(self):
+        a, b = Color("#888888"), Color("#0d5eaf")
+        a_, b_, success = modulate(a, b, mode=ModulationMode.BACKGROUND)
+
+        self.assertEqual(a, a_)
+        self.assertNotEqual(b, b_)
+        self.assertEqual(b.get_hue(), b_.get_hue())
+        self.assertEqual(b.get_saturation(), b_.get_saturation())
+        self.assertEqual(Color("#052240"), b_)
+        self.assertTrue(success)
 
 
 if __name__ == "__main__":

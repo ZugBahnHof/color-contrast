@@ -9,6 +9,12 @@ class AccessibilityLevel(enum.Enum):
     AAA = 7
 
 
+class ModulationMode(enum.Enum):
+    FOREGROUND = "fg"
+    BACKGROUND = "bg"
+    BOTH = "both"
+
+
 def get_luminance(color: Color) -> float:
     """
     Calculate the relative luminance of the supplied color.
@@ -35,6 +41,7 @@ def get_luminance(color: Color) -> float:
 def check_contrast(
     foreground_color: str | Color,
     background_color: str | Color,
+    *,
     level: float | AccessibilityLevel = AccessibilityLevel.AA,
 ) -> bool:
     """
@@ -65,24 +72,61 @@ def check_contrast(
     return ratio >= level or ratio_i >= level
 
 
-def modulate(foreground: str | Color, background: str | Color):
+def increase_lightness(color: Color, delta: float) -> Color:
+    old_hsl = color.hsl
+
+    new_hsl = (old_hsl[0], old_hsl[1], max(0, min(1, old_hsl[2] + delta)))
+
+    return Color(hsl=new_hsl)
+
+
+def modulate(
+    foreground: str | Color,
+    background: str | Color,
+    *,
+    level: float | AccessibilityLevel = AccessibilityLevel.AA,
+    mode: ModulationMode = ModulationMode.FOREGROUND,
+):
     foreground = Color(foreground)
     background = Color(background)
 
     l1, l2 = get_luminance(foreground), get_luminance(background)
 
     # fg Color is brighter
-    mode = 1 / 256 if l1 > l2 else -1 / 256
+    fg_delta = 1 / 256 if l1 > l2 else -1 / 256
 
-    while not check_contrast(foreground, background):
-        old_hsl = foreground.hsl
+    unsuccessful_stop = False
 
-        if old_hsl[2] == 1 or old_hsl[2] == 0:
-            break
+    while not check_contrast(foreground, background, level=level):
+        if (
+            foreground.get_luminance() in (0, 1)
+            and mode is not ModulationMode.BACKGROUND
+        ):
+            if mode is ModulationMode.FOREGROUND:
+                unsuccessful_stop = True
+                break
+            elif mode is ModulationMode.BOTH:
+                mode = ModulationMode.BACKGROUND
+        if (
+            background.get_luminance() in (0, 1)
+            and mode is not ModulationMode.FOREGROUND
+        ):
+            if mode is ModulationMode.BACKGROUND:
+                unsuccessful_stop = True
+                break
+            elif mode is ModulationMode.BOTH:
+                mode = ModulationMode.FOREGROUND
 
-        new_hsl = (old_hsl[0], old_hsl[1], max(0, min(1, old_hsl[2] + mode)))
+        match mode:
+            case ModulationMode.FOREGROUND:
+                foreground = increase_lightness(foreground, fg_delta)
 
-        foreground = Color(hsl=new_hsl)
+            case ModulationMode.BACKGROUND:
+                background = increase_lightness(background, -fg_delta)
 
-    print(foreground.hex, background.hex)
-    return foreground, background
+            case ModulationMode.BOTH:
+                foreground = increase_lightness(foreground, fg_delta)
+                background = increase_lightness(background, -fg_delta)
+
+    print(foreground.hex, background.hex, unsuccessful_stop)
+    return foreground, background, not unsuccessful_stop
