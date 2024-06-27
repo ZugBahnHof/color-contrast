@@ -4,6 +4,7 @@ A python library to calculate and modulate color contrasts according to WCAG2.1
 ![PyPI - Version](https://img.shields.io/pypi/v/color-contrast?style=for-the-badge&logo=pypi)
 ![GitHub Tag](https://img.shields.io/github/v/tag/ZugBahnHof/color-contrast?style=for-the-badge&logo=github)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/ZugBahnHof/color-contrast?style=for-the-badge&logo=github)
+![PyPI - License](https://img.shields.io/pypi/l/color-contrast?style=for-the-badge)
 
 ## Usage
 
