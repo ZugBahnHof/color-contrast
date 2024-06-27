@@ -1,9 +1,12 @@
 [tool.poetry]
 name = "color-contrast"
 version = "0.1.0"
-description = ""
+description = "Python library to calculate and modulate color contrasts according to WCAG2.1"
 authors = ["Julian Leucker <leuckerj@gmail.com>"]
 readme = "README.md"
+license = "BSD-3-Clause"
+repository = "https://github.com/ZugBahnHof/color-contrast"
+keywords = ["color", "colour", "accessibility", "wcag", "wcag2.1"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
